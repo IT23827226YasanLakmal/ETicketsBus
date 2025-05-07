@@ -11,13 +11,13 @@ import java.util.List;
 
 
 @WebServlet("/getallSchedule")
-public class getallSchedule extends HttpServlet {
+public class It23843370_getallSchedule extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
 		
-		List <scheduleModel> allSchedules = scheduleControl.getallSchedules();
+		List <It23843370_scheduleModel> allSchedules = It23843370_scheduleControl.getallSchedules();
 		request.setAttribute("allSchedules",allSchedules);
 		
 		RequestDispatcher dispatcher = request.getRequestDispatcher("bus_operator_dashboard.jsp");

@@ -13,7 +13,7 @@ import java.time.format.DateTimeFormatter;
 
 
 @WebServlet("/scheduleServlet")
-public class scheduleServlet extends HttpServlet {
+public class It23843370_scheduleServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	
@@ -38,7 +38,7 @@ public class scheduleServlet extends HttpServlet {
         
         boolean isTrue;
         
-        isTrue = scheduleControl.insertData(id, busId, routeId, driverId, departure, arrival, travelDate, fare);
+        isTrue = It23843370_scheduleControl.insertData(id, busId, routeId, driverId, departure, arrival, travelDate, fare);
         
         if(isTrue == true) {
         	

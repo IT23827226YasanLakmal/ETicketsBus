@@ -8,7 +8,7 @@ import java.sql.SQLException;
 
 
 
-public class DBconnection {
+public class It23843370_DBconnection {
 
 	private static String url = "jdbc:mysql://127.0.0.1:3306/ebusticketsystem";
 	private static String username = "root";

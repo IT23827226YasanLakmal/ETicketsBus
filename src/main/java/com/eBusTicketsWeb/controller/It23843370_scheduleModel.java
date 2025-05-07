@@ -3,7 +3,7 @@ package com.eBusTicketsWeb.controller;
 import java.time.LocalTime;
 import java.time.LocalDate;
 
-public class scheduleModel {
+public class It23843370_scheduleModel {
 	
 	private int id;
 	private int busId;
@@ -14,7 +14,7 @@ public class scheduleModel {
 	private LocalDate travelDate;
 	private double fare;
 	
-	public scheduleModel(int id, int busId, int routeId, int driverId, LocalTime departure, LocalTime arrival,
+	public It23843370_scheduleModel(int id, int busId, int routeId, int driverId, LocalTime departure, LocalTime arrival,
 			LocalDate travelDate, double fare) {
 		
 		this.id = id;

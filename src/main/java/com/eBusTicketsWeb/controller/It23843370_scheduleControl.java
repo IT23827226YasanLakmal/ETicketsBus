@@ -8,7 +8,7 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
-public class scheduleControl {
+public class It23843370_scheduleControl {
 	
 	
 	//DB connection
@@ -26,7 +26,7 @@ public class scheduleControl {
 		try {
 			
 			//DB connection call
-			con = DBconnection.getConnection();
+			con = It23843370_DBconnection.getConnection();
 			stmt = con.createStatement();
 			
 			//SQL Query
@@ -50,16 +50,16 @@ public class scheduleControl {
 	}
 	
 	//get details from DB
-	public static List<scheduleModel> getById (String ID){
+	public static List<It23843370_scheduleModel> getById (String ID){
 		
 		int convertedId = Integer.parseInt(ID);
 		
-		ArrayList <scheduleModel> sc = new ArrayList<>();
+		ArrayList <It23843370_scheduleModel> sc = new ArrayList<>();
 			
 		try {
 			
 			//DB connection call
-			con = DBconnection.getConnection();
+			con = It23843370_DBconnection.getConnection();
 			stmt = con.createStatement();
 			
 			//Query
@@ -80,7 +80,7 @@ public class scheduleControl {
 				LocalTime arrTime = LocalTime.parse(arrival);
 				LocalDate traveLd = LocalDate.parse(travelDate);
 				
-				scheduleModel sm = new scheduleModel(id,busId,routeId,driverId,depTime,arrTime,traveLd,fare);
+				It23843370_scheduleModel sm = new It23843370_scheduleModel(id,busId,routeId,driverId,depTime,arrTime,traveLd,fare);
 				
 				sc.add(sm);
 			}
@@ -94,14 +94,14 @@ public class scheduleControl {
 	}
 	
 	//Get all data
-	public static List<scheduleModel> getallSchedules(){
+	public static List<It23843370_scheduleModel> getallSchedules(){
 		
-		ArrayList <scheduleModel> allsc = new ArrayList<>();
+		ArrayList <It23843370_scheduleModel> allsc = new ArrayList<>();
 		
 try {
 			
 			//DB connection call
-			con = DBconnection.getConnection();
+			con = It23843370_DBconnection.getConnection();
 			stmt = con.createStatement();
 			
 			//Query
@@ -122,7 +122,7 @@ try {
 				LocalTime arrTime = LocalTime.parse(arrival);
 				LocalDate traveLd = LocalDate.parse(travelDate);
 				
-				scheduleModel sm = new scheduleModel(id,busId,routeId,driverId,depTime,arrTime,traveLd,fare);
+				It23843370_scheduleModel sm = new It23843370_scheduleModel(id,busId,routeId,driverId,depTime,arrTime,traveLd,fare);
 				
 				allsc.add(sm);
 			}
