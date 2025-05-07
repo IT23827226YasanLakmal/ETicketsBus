@@ -33,10 +33,15 @@
                             <label for="password">Password</label>
                             <input type="password" name="password" class="form-control" id="password" required>
                         </div>
-
+					
                         <div class="form-group">
                             <label for="confirmPassword">Confirm Password</label>
                             <input type="password" name="confirmPassword" class="form-control" id="confirmPassword" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="password">Phone</label>
+                            <input type="number" name="phone" class="form-control" id="phone" required>
                         </div>
 
                         <button type="submit" class="btn btn-success btn-block">Register</button>

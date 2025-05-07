@@ -26,6 +26,7 @@ public class UserDAO {
                 user.setUsername(rs.getString("username"));
                 user.setEmail(rs.getString("email"));
                 user.setPasswordHash(rs.getString("password_hash"));
+                user.setPhone(rs.getString("phone"));
                 return Optional.of(user);
             }
         }
@@ -33,12 +34,13 @@ public class UserDAO {
     }
 
     public boolean save(User user) throws SQLException {
-    	String sql = "INSERT INTO user (username, email, password_hash) VALUES (?, ?, ?)";
+    	String sql = "INSERT INTO user (username, email, password_hash, phone) VALUES (?, ?, ?, ?)";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
 
-            stmt.setString(1, user.getUsername());
+            stmt.setString(1, user.getUsername());	
             stmt.setString(2, user.getEmail());
             stmt.setString(3, user.getPasswordHash());
+            stmt.setString(4, user.getPhone());
             return stmt.executeUpdate() == 1;
         }
     }

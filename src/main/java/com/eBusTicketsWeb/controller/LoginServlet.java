@@ -15,7 +15,6 @@ import jakarta.servlet.http.HttpSession;
 
 @WebServlet("/login")
 public class LoginServlet extends HttpServlet {
-//
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -27,7 +26,7 @@ public class LoginServlet extends HttpServlet {
     	try {
     		UserService userService = new UserService(new UserDAO(DBConnection.getConnection()));
     		boolean authenticated = userService.authenticate(username, password);
-
+    		
     		if(authenticated) {
     			HttpSession session = request.getSession();
     			session.setAttribute("username", username);
@@ -40,6 +39,5 @@ public class LoginServlet extends HttpServlet {
     	}catch(Exception e) {
     		throw new ServletException(e);
     	}
-
     }
 }

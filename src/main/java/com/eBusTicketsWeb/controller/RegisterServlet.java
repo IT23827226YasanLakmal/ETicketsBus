@@ -26,6 +26,7 @@ public class RegisterServlet extends HttpServlet {
         registerRequest.setEmail(request.getParameter("email"));
         registerRequest.setPassword(request.getParameter("password"));
         registerRequest.setConfirmPassword(request.getParameter("confirmPassword"));
+        registerRequest.setPhone(request.getParameter("phone"));
         
 
         try {
@@ -41,7 +42,8 @@ public class RegisterServlet extends HttpServlet {
             boolean registered = userService.register(
                     registerRequest.getUsername(),
                     registerRequest.getEmail(),
-                    registerRequest.getPassword()
+                    registerRequest.getPassword(),
+                    registerRequest.getPhone()
             );
             
             if (registered) {
