@@ -30,7 +30,7 @@ public class LoginServlet extends HttpServlet {
     		if(authenticated) {
     			HttpSession session = request.getSession();
     			session.setAttribute("username", username);
-    			response.sendRedirect("user_dashboard.jsp");
+    			response.sendRedirect("/user/user_dashboard.jsp");
 
     		}else {
     			request.setAttribute("error","Invalid username or password.");
