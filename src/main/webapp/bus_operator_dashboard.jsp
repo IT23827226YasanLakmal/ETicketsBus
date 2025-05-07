@@ -1,5 +1,6 @@
 <%@ page import="java.util.*, java.text.*" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -15,7 +16,7 @@
     <div class="card mb-4 shadow">
         <div class="card-header bg-primary text-white">Add / Update Schedule</div>
         <div class="card-body">
-            <form action="ScheduleServlet" method="post">
+            <form action="scheduleServlet" method="post">
                 <div class="row g-3">
                     <div class="col-md-3">
                         <label>Schedule ID</label>
@@ -78,28 +79,31 @@
                 </thead>
                 <tbody>
                 <%-- Sample static data for demo purposes. Replace with dynamic content from DB --%>
+                <c:forEach var="allsc" items="${allSchedules}">
+                
                 <tr>
-                    <td>101</td>
-                    <td>BUS001</td>
-                    <td>RT005</td>
-                    <td>DRV009</td>
-                    <td>08:00</td>
-                    <td>12:00</td>
-                    <td>2025-05-06</td>
-                    <td>$15.00</td>
+                    <td>${allsc.id}</td>
+                    <td>${allsc.busId}</td>
+                    <td>${allsc.routeId}</td>
+                    <td>${allsc.driverId}</td>
+                    <td>${allsc.departure}</td>
+                    <td>${allsc.arrival}</td>
+                    <td>${allsc.travelDate}</td>
+                    <td>${allsc.fare}</td>
                     <td>
-                        <form action="ScheduleServlet" method="post" style="display:inline;">
+                        <form action="scheduleServlet" method="post" style="display:inline;">
                             <input type="hidden" name="scheduleId" value="101"/>
                             <button name="action" value="edit" class="btn btn-sm btn-info">Edit</button>
                         </form>
-                        <form action="ScheduleServlet" method="post" style="display:inline;">
+                        <form action="scheduleServlet" method="post" style="display:inline;">
                             <input type="hidden" name="scheduleId" value="101"/>
                             <button name="action" value="delete" class="btn btn-sm btn-danger">Delete</button>
                         </form>
                     </td>
                 </tr>
-                <%-- Loop through your schedule list and display here --%>
+                </c:forEach>
                 </tbody>
+                
             </table>
         </div>
     </div>
