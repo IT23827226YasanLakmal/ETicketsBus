@@ -69,9 +69,16 @@
                   <p class="mb-2"><i class="bi bi-calendar-event"></i> Date: <strong>${schedule.travelDate}</strong></p>
                   <p class="mb-1"><i class="bi bi-clock-fill"></i> Departure: <strong>${schedule.departureTime}</strong></p>
                   <p class="mb-3"><i class="bi bi-clock-history"></i> Arrival: <strong>${schedule.arrivalTime}</strong></p>
-                  <a href="user/book?scheduleId=${schedule.id}" class="btn btn-outline-primary btn-sm">
-                    <i class="bi bi-ticket-perforated me-1"></i>Book Now
-                  </a>
+                
+                  
+                   <form action="viewAllBus" method="post">
+                    <input name="scheduleId" type="hidden" id="scheduleId" value="${schedule.id}">
+                    <input name="travelDate" type="hidden" id="travelDate" value="${schedule.travelDate}">
+                 
+                    <button type="submit" class="btn btn-outline-primary btn-sm"> <i class="bi bi-ticket-perforated me-1"></i>Go To Booking</button>
+                   </form>
+
+                  
                 </div>
               </div>
             </div>

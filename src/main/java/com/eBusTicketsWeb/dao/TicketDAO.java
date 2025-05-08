@@ -13,8 +13,8 @@ public class TicketDAO {
         this.connection = connection;
     }
 
-    public void insertReservation(Ticket ticket) throws SQLException {
-        String sql = "INSERT INTO reservation (user_id, schedule_id, seat_id, payment_id, status) VALUES (?, ?, ?, ?, ?)";
+    public void insertTicket(Ticket ticket) throws SQLException {
+        String sql = "INSERT INTO ticket (user_id, schedule_id, seat_id, payment_id, status) VALUES (?, ?, ?, ?, ?)";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setInt(1, ticket.getUserId());
             stmt.setInt(2, ticket.getScheduleId());

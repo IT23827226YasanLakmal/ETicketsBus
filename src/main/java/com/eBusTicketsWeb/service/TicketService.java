@@ -15,7 +15,7 @@ public class TicketService {
     }
 
     public void bookTicket(Ticket ticket) throws SQLException {
-    	ticketDAO.insertReservation(ticket);
+    	ticketDAO.insertTicket(ticket);
     }
 
     public List<Ticket> getAllTickets() throws SQLException {

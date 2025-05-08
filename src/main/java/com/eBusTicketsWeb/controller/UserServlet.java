@@ -11,19 +11,24 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 
+import com.eBusTicketsWeb.dao.BusDAO;
 import com.eBusTicketsWeb.dao.UserDAO;
+import com.eBusTicketsWeb.model.Bus;
 import com.eBusTicketsWeb.model.RegisterRequest;
 import com.eBusTicketsWeb.model.Schedule;
 import com.eBusTicketsWeb.model.ScheduleResult;
 import com.eBusTicketsWeb.service.ScheduleService;
 import com.eBusTicketsWeb.service.UserService;
 import com.eBusTicketsWeb.util.DBConnection;
+import com.eBusTicketsWeb.service.BusService;
 
 @WebServlet(urlPatterns = {
 	    "/user/register",
 	    "/user/login",
 	    "/user/searchTicket",
+	    "/user/viewAllBus",
 	    "/user/home"
+	    
 	})
 	public class UserServlet extends HttpServlet {
 	
@@ -55,6 +60,9 @@ import com.eBusTicketsWeb.util.DBConnection;
 	            case "/user/searchTicket":
 	                handleSearch(request, response);
 	                break;
+	            case "/user/viewAllBus":
+	                handleViewAllBus(request, response);
+	                break;    
 	            case "/user/bookTicket":
 	            	handleBookTicket(request, response);
 	                break;
@@ -166,8 +174,36 @@ import com.eBusTicketsWeb.util.DBConnection;
 	        }
 	    }
 
+	    private void handleViewAllBus(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+	        // Update logic
+	    	int id = Integer.parseInt(request.getParameter("scheduleId"));
+	    	String travelDate = request.getParameter("travelDate");
+	    	
+	    	HttpSession session = request.getSession();
+			session.setAttribute("travelDate", travelDate);
+			session.setAttribute("scheduleId", id);
+			
+	    	try {
+	            BusService busService = new BusService(new BusDAO(DBConnection.getConnection()));
+	            List<Bus> busList = busService.searchAllBusByScheduleId(id);
+
+	            
+	            request.setAttribute("busList", busList);
+	            
+				request.getRequestDispatcher("/user_bus_result.jsp").forward(request, response);
+	            
+	        } catch (Exception e) {
+	            throw new ServletException("Error searching for tickets", e);
+	        }
+	       
+	    }
+	    
+	    
 	    private void handleBookTicket(HttpServletRequest request, HttpServletResponse response) throws IOException {
 	        // Update logic
+	    	int busId = Integer.parseInt(request.getParameter("busId"));
+	    
+	    	
 	        response.getWriter().write("Update handler");
 	    }
 	    

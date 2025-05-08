@@ -10,8 +10,22 @@ public class Ticket {
     private int paymentId;
     private Timestamp bookingDate;
     private String status;
+    
 
-    // Getters and Setters
+    public Ticket(){
+    	
+    }
+    public Ticket(int id, int userId, int scheduleId, int seatId, int paymentId, Timestamp bookingDate, String status) {
+		super();
+		this.id = id;
+		this.userId = userId;
+		this.scheduleId = scheduleId;
+		this.seatId = seatId;
+		this.paymentId = paymentId;
+		this.bookingDate = bookingDate;
+		this.status = status;
+	}
+	// Getters and Setters
     public int getId() { return id; }
     public void setId(int id) { this.id = id; }
 
