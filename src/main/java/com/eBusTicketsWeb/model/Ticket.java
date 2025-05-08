@@ -2,7 +2,7 @@ package com.eBusTicketsWeb.model;
 
 import java.sql.Timestamp;
 
-public class Reservation {
+public class Ticket {
     private int id;
     private int userId;
     private int scheduleId;

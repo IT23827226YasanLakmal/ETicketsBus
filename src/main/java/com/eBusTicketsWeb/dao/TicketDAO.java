@@ -1,38 +1,38 @@
 package com.eBusTicketsWeb.dao;
 
-import com.eBusTicketsWeb.model.Reservation;
+import com.eBusTicketsWeb.model.Ticket;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class ReservationDAO {
+public class TicketDAO {
     private Connection connection;
 
-    public ReservationDAO(Connection connection) {
+    public TicketDAO(Connection connection) {
         this.connection = connection;
     }
 
-    public void insertReservation(Reservation reservation) throws SQLException {
+    public void insertReservation(Ticket ticket) throws SQLException {
         String sql = "INSERT INTO reservation (user_id, schedule_id, seat_id, payment_id, status) VALUES (?, ?, ?, ?, ?)";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
-            stmt.setInt(1, reservation.getUserId());
-            stmt.setInt(2, reservation.getScheduleId());
-            stmt.setInt(3, reservation.getSeatId());
-            stmt.setInt(4, reservation.getPaymentId());
-            stmt.setString(5, reservation.getStatus());
+            stmt.setInt(1, ticket.getUserId());
+            stmt.setInt(2, ticket.getScheduleId());
+            stmt.setInt(3, ticket.getSeatId());
+            stmt.setInt(4, ticket.getPaymentId());
+            stmt.setString(5, ticket.getStatus());
             stmt.executeUpdate();
         }
     }
 
-    public Optional<List<Reservation>> getAllReservations() throws SQLException {
-        List<Reservation> list = new ArrayList<>();
+    public Optional<List<Ticket>> getAllReservations() throws SQLException {
+        List<Ticket> list = new ArrayList<>();
         String sql = "SELECT * FROM reservation";
         try (Statement stmt = connection.createStatement();
              ResultSet rs = stmt.executeQuery(sql)) {
 
             while (rs.next()) {
-                Reservation r = new Reservation();
+                Ticket r = new Ticket();
                 r.setId(rs.getInt("id"));
                 r.setUserId(rs.getInt("user_id"));
                 r.setScheduleId(rs.getInt("schedule_id"));

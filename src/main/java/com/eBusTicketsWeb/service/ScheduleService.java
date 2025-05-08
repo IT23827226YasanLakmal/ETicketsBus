@@ -2,6 +2,7 @@ package com.eBusTicketsWeb.service;
 
 import com.eBusTicketsWeb.dao.ScheduleDAO;
 import com.eBusTicketsWeb.model.Schedule;
+import com.eBusTicketsWeb.model.ScheduleResult;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -18,12 +19,12 @@ public class ScheduleService {
         scheduleDAO.addSchedule(schedule);
     }
 
-    public List<Schedule> getAllSchedules() throws SQLException {
+    public List<ScheduleResult> fetchAllSchedules() throws SQLException {
         return scheduleDAO.getAllSchedules();
     }
 
-    public Schedule getScheduleById(int id) throws SQLException {
-        return scheduleDAO.getScheduleById(id);
+    public List<ScheduleResult> getScheduleBySearch(String from, String to, String date) throws SQLException {
+        return scheduleDAO.getScheduleBySearch(from, to, date);
     }
 
     public void removeSchedule(int id) throws SQLException {

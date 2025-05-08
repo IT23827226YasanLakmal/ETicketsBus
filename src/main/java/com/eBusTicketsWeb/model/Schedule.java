@@ -1,5 +1,5 @@
 package com.eBusTicketsWeb.model;
-import java.math.BigDecimal;
+
 import java.sql.Date;
 import java.sql.Time;
 
@@ -11,19 +11,19 @@ public class Schedule {
     private Time departureTime;
     private Time arrivalTime;
     private Date travelDate;
-    private BigDecimal fare;
+
 
     // Constructors
     public Schedule() {}
 
-    public Schedule(int id, int busId, int routeId, int driverId, Time departureTime, Time arrivalTime, Date travelDate) {
+    public Schedule(int id, int busId, int routeId, int driverId, Time departureTime, Time arrivalTime) {
         this.id = id;
         this.busId = busId;
         this.routeId = routeId;
         this.driverId = driverId;
         this.departureTime = departureTime;
         this.arrivalTime = arrivalTime;
-        this.travelDate = travelDate;
+
     }
 
     // Getters and Setters
@@ -48,6 +48,5 @@ public class Schedule {
     public Date getTravelDate() { return travelDate; }
     public void setTravelDate(Date travelDate) { this.travelDate = travelDate; }
 
-    public BigDecimal getFare() { return fare; }
-    public void setFare(BigDecimal fare) { this.fare = fare; }
+    
 }

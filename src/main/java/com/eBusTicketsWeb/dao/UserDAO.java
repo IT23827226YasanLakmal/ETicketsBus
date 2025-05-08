@@ -16,7 +16,7 @@ public class UserDAO {
     }
 
     public Optional<User> findByUsername(String username) throws SQLException {
-        String sql = "SELECT * FROM user WHERE username = ?";
+        String sql = "SELECT * FROM users WHERE username = ?";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setString(1, username);
             ResultSet rs = stmt.executeQuery();
@@ -34,7 +34,7 @@ public class UserDAO {
     }
 
     public boolean save(User user) throws SQLException {
-    	String sql = "INSERT INTO user (username, email, password_hash, phone) VALUES (?, ?, ?, ?)";
+    	String sql = "INSERT INTO users (username, email, password_hash, phone) VALUES (?, ?, ?, ?)";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
 
             stmt.setString(1, user.getUsername());	
@@ -47,7 +47,7 @@ public class UserDAO {
 
 
     public int findLastUserId() {
-        String sql = "SELECT id FROM user ORDER BY id DESC LIMIT 1";
+        String sql = "SELECT id FROM users ORDER BY id DESC LIMIT 1";
         try (PreparedStatement stmt = connection.prepareStatement(sql);
              ResultSet rs = stmt.executeQuery()) {
 
