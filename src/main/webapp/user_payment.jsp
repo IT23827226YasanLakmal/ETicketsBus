@@ -52,7 +52,7 @@
             color: #555;
         }
 
-        form input, form select {
+        form select {
             width: 100%;
             padding: 12px;
             margin-bottom: 15px;
@@ -129,21 +129,17 @@
         </div>
     </div>
 
-    <!-- ==== Payment Form ===== -->
-    <form action="processPayment" method="post">
-        <label for="cardName">Cardholder Name</label>
-        <input type="text" id="cardName" name="cardName" required placeholder="John Doe">
+    <!-- ==== Payment Method Dropdown Form ===== -->
+    <form action="book/payment" method="post">
+        <label for="paymentMethod">Select Payment Method</label>
+        <select id="paymentMethod" name="paymentMethod" required>
+            <option value="">-- Choose Payment Method --</option>
+            <option value="CARD">Credit/Debit Card</option>
+            <option value="BANK_TRANSFER">Bank Transfer</option>
+            <option value="CASH_ON_DELIVERY">Cash on Delivery</option>
+        </select>
 
-        <label for="cardNumber">Card Number</label>
-        <input type="text" id="cardNumber" name="cardNumber" required placeholder="1234 5678 9012 3456">
-
-        <label for="expiryDate">Expiry Date</label>
-        <input type="month" id="expiryDate" name="expiryDate" required>
-
-        <label for="cvv">CVV</label>
-        <input type="password" id="cvv" name="cvv" required placeholder="123">
-
-        <button type="submit" class="pay-btn">Pay Now</button>
+        <button type="submit" class="pay-btn">Reserve Ticket</button>
     </form>
 
     <div class="note">

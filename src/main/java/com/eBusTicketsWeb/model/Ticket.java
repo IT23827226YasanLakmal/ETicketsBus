@@ -6,7 +6,7 @@ public class Ticket {
     private int id;
     private int userId;
     private int scheduleId;
-    private int seatId;
+    private int busId;
     private int paymentId;
     private Timestamp bookingDate;
     private String status;
@@ -15,12 +15,12 @@ public class Ticket {
     public Ticket(){
     	
     }
-    public Ticket(int id, int userId, int scheduleId, int seatId, int paymentId, Timestamp bookingDate, String status) {
+    public Ticket(int userId, int scheduleId, int busId ,int paymentId, Timestamp bookingDate, String status) {
 		super();
-		this.id = id;
+		
 		this.userId = userId;
 		this.scheduleId = scheduleId;
-		this.seatId = seatId;
+		this.busId = busId;
 		this.paymentId = paymentId;
 		this.bookingDate = bookingDate;
 		this.status = status;
@@ -35,10 +35,14 @@ public class Ticket {
     public int getScheduleId() { return scheduleId; }
     public void setScheduleId(int scheduleId) { this.scheduleId = scheduleId; }
 
-    public int getSeatId() { return seatId; }
-    public void setSeatId(int seatId) { this.seatId = seatId; }
 
-    public int getPaymentId() { return paymentId; }
+    public int getBusId() {
+		return busId;
+	}
+	public void setBusId(int busId) {
+		this.busId = busId;
+	}
+	public int getPaymentId() { return paymentId; }
     public void setPaymentId(int paymentId) { this.paymentId = paymentId; }
 
     public Timestamp getBookingDate() { return bookingDate; }

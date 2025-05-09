@@ -1,5 +1,6 @@
 package com.eBusTicketsWeb.controller;
 
+
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -7,24 +8,31 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
+import java.sql.Timestamp;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 import com.eBusTicketsWeb.dao.BusDAO;
+import com.eBusTicketsWeb.dao.PaymentDAO;
 import com.eBusTicketsWeb.dao.SeatDAO;
 import com.eBusTicketsWeb.dao.UserDAO;
+import com.eBusTicketsWeb.dao.TicketDAO;
 import com.eBusTicketsWeb.model.Bus;
+import com.eBusTicketsWeb.model.Payment;
 import com.eBusTicketsWeb.model.RegisterRequest;
 import com.eBusTicketsWeb.model.Schedule;
 import com.eBusTicketsWeb.model.ScheduleResult;
 import com.eBusTicketsWeb.model.Seat;
+import com.eBusTicketsWeb.model.Ticket;
 import com.eBusTicketsWeb.service.ScheduleService;
 import com.eBusTicketsWeb.service.SeatService;
+import com.eBusTicketsWeb.service.TicketService;
 import com.eBusTicketsWeb.service.UserService;
 import com.eBusTicketsWeb.util.DBConnection;
 import com.eBusTicketsWeb.service.BusService;
+import com.eBusTicketsWeb.service.PaymentService;
 
 @WebServlet(urlPatterns = {
 	    "/user/register",
@@ -33,6 +41,7 @@ import com.eBusTicketsWeb.service.BusService;
 	    "/user/viewAllBus",
 	    "/user/viewAllBus/seat",
 	    "/user/viewAllBus/seat/book",
+	    "/user/viewAllBus/seat/book/payment",
 	    "/user/home"
 	    
 	})
@@ -75,6 +84,9 @@ import com.eBusTicketsWeb.service.BusService;
 	            case "/user/viewAllBus/seat/book":
 	            	handleBookTicket(request, response);
 	                break;
+	            case "/user/viewAllBus/seat/book/payment":
+	            	handlePayment(request, response);
+	                break;    
 	            case "/user/bookingHistory":
 	                handleBookingHistory(request, response);
 	                break;
@@ -189,12 +201,14 @@ import com.eBusTicketsWeb.service.BusService;
 	    	String travelDate = request.getParameter("travelDate");
 	    	String departureTime = request.getParameter("departureTime");
 	    	String arrivalTime = request.getParameter("arrivalTime");
+	    
 	    	
 	    	HttpSession session = request.getSession();
 			session.setAttribute("scheduleId", id);
 			session.setAttribute("travelDate", travelDate);
 			session.setAttribute("departureTime", departureTime);
 			session.setAttribute("arrivalTime", arrivalTime);
+			
 			
 	    	try {
 	            BusService busService = new BusService(new BusDAO(DBConnection.getConnection()));
@@ -222,6 +236,7 @@ import com.eBusTicketsWeb.service.BusService;
 	    	String departureTime = (String) session.getAttribute("departureTime");
 	    	
 	    	int busId = Integer.parseInt(request.getParameter("busId"));
+	    	session.setAttribute("busId", busId);
 	    	String busType = request.getParameter("busType");
 	    	String busNumber = request.getParameter("busNumber");
 	    
@@ -252,6 +267,10 @@ import com.eBusTicketsWeb.service.BusService;
 	    
 	    private void handleBookTicket(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 		       
+	    	HttpSession session = request.getSession();
+	    	
+	    	String travelDate = (String) session.getAttribute("travelDate");
+	    	String busNumber = (String) session.getAttribute("busNumber");
 	    	
 	        String selectedSeatsParam = request.getParameter("selectedSeats");
 
@@ -271,7 +290,11 @@ import com.eBusTicketsWeb.service.BusService;
 	            	seatService.reserveSeat(seatId);
 	            }
 	          
+	            request.setAttribute("selectedSeats", seatIds);
 	            request.setAttribute("totalPrice", 400.00);
+	            request.setAttribute("travelDate", travelDate);
+	            request.setAttribute("busNumber", busNumber);
+	            
 	            request.getRequestDispatcher("/user_payment.jsp").forward(request, response);
 	            
 	        } else {
@@ -280,6 +303,62 @@ import com.eBusTicketsWeb.service.BusService;
 	            request.getRequestDispatcher("/user_bus_result.jsp").forward(request, response);
 	        }
 	    }
+	    
+	    private void handlePayment(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+	        String paymentMethod = request.getParameter("paymentMethod");
+
+	        HttpSession session = request.getSession();
+	       
+
+	        try {
+	            // Retrieve necessary session attributes
+	            Integer userId = 1;
+	            Integer scheduleId = (Integer) session.getAttribute("scheduleId");
+	            String travelDate = (String) session.getAttribute("travelDate");
+	            Integer busId = (Integer) session.getAttribute("busId"); // pass busId from form (hidden i
+	            Double totalPrice = 400.00;
+	            
+	            Payment payment = new Payment(userId,totalPrice ,paymentMethod, "PENDING");
+
+	            if (userId == null || scheduleId == null || busId == null) {
+	                request.setAttribute("errorMessage", "Invalid booking details. Please try again.");
+	                request.getRequestDispatcher("/user_home.jsp").forward(request, response);
+	                return;
+            }
+
+	            PaymentService paymentService = new PaymentService(new PaymentDAO(DBConnection.getConnection()));
+	            
+	            int paymentId = paymentService.createPayment(payment);
+
+	       
+	            TicketService ticketService = new TicketService(new TicketDAO(DBConnection.getConnection()));
+	            Timestamp bookingDate = Timestamp.valueOf(travelDate + " 00:00:00");
+
+
+	            Ticket ticket = new Ticket(userId,scheduleId,busId,paymentId,bookingDate,"BOOKED");
+	            ticketService.bookTicket(ticket);
+	           
+	            session.removeAttribute("scheduleId");
+	            session.removeAttribute("travelDate");
+	            session.removeAttribute("departureTime");
+	            session.removeAttribute("arrivalTime");
+
+	            
+	            request.setAttribute("message", "Your booking and payment were successful!");
+	            request.setAttribute("paymentMethod", paymentMethod);
+	            request.setAttribute("totalPrice", totalPrice);
+	            request.setAttribute("travelDate", travelDate);
+
+	            request.getRequestDispatcher("/user_home.jsp").forward(request, response);
+
+	        } catch (Exception e) {
+	            throw new ServletException("Error processing payment", e);
+	        }
+	    }
+
+	    
+	    
+	    
 	    
 	    private void handleBookingHistory(HttpServletRequest request, HttpServletResponse response) throws IOException {
 	       

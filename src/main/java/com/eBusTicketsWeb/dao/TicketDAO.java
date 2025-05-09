@@ -14,13 +14,14 @@ public class TicketDAO {
     }
 
     public void insertTicket(Ticket ticket) throws SQLException {
-        String sql = "INSERT INTO ticket (user_id, schedule_id, seat_id, payment_id, status) VALUES (?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO ticket (user_id, schedule_id,bus_id, payment_id,booking_date, status) VALUES (?,?,?, ?, ?, ?)";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setInt(1, ticket.getUserId());
             stmt.setInt(2, ticket.getScheduleId());
-            stmt.setInt(3, ticket.getSeatId());
+            stmt.setInt(3, ticket.getBusId());
             stmt.setInt(4, ticket.getPaymentId());
-            stmt.setString(5, ticket.getStatus());
+            stmt.setTimestamp(5, ticket.getBookingDate());
+            stmt.setString(6, ticket.getStatus());
             stmt.executeUpdate();
         }
     }
@@ -36,7 +37,7 @@ public class TicketDAO {
                 r.setId(rs.getInt("id"));
                 r.setUserId(rs.getInt("user_id"));
                 r.setScheduleId(rs.getInt("schedule_id"));
-                r.setSeatId(rs.getInt("seat_id"));
+                r.setBusId(rs.getInt("bus_id"));
                 r.setPaymentId(rs.getInt("payment_id"));
                 r.setBookingDate(rs.getTimestamp("booking_date"));
                 r.setStatus(rs.getString("status"));
