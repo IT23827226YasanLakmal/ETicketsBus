@@ -25,6 +25,24 @@
      	<servlet-name>getallSchedule</servlet-name>
      	<url-pattern>/getallSchedule</url-pattern>
      </servlet-mapping>
+     
+     <servlet>
+     	<servlet-name>updatescheduleServlet</servlet-name>
+     	<servlet-class>com.eBusTicketsWeb.controller.updatescheduleServlet</servlet-class>
+     </servlet>
+     <servlet-mapping>
+     	<servlet-name>updatescheduleServlet</servlet-name>
+     	<url-pattern>/updatescheduleServlet</url-pattern>
+     </servlet-mapping>
+     
+     <servlet>
+     	<servlet-name>deleteScheduleServlet</servlet-name>
+     	<servlet-class>com.eBusTicketsWeb.controller.deleteScheduleServlet</servlet-class>
+     </servlet>
+     <servlet-mapping>
+     	<servlet-name>deleteScheduleServlet</servlet-name>
+     	<url-pattern>/deleteScheduleServlet</url-pattern>
+     </servlet-mapping>
 
 
 </web-app>

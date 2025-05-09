@@ -51,9 +51,9 @@
                         <input type="number" step="0.01" name="fare" class="form-control" required>
                     </div>
                 </div>
-                <div class="mt-4">
-                    <button type="submit" name="action" value="create" class="btn btn-success">Add</button>
-                    <button type="submit" name="action" value="update" class="btn btn-warning">Update</button>
+                <div class="mt-4 d-flex justify-content-center">
+                    <button type="submit" name="action" value="create" class="btn btn-success px-5">Add</button>
+                   <!--   <button type="submit" name="action" value="update" class="btn btn-warning">Update</button>-->
                 </div>
             </form>
         </div>
@@ -91,12 +91,15 @@
                     <td>${allsc.travelDate}</td>
                     <td>${allsc.fare}</td>
                     <td>
-                        <form action="scheduleServlet" method="post" style="display:inline;">
+                        <!--  <form action="scheduleServlet" method="post" style="display:inline;">
                             <input type="hidden" name="scheduleId" value="101"/>
-                            <button name="action" value="edit" class="btn btn-sm btn-info">Edit</button>
-                        </form>
-                        <form action="scheduleServlet" method="post" style="display:inline;">
-                            <input type="hidden" name="scheduleId" value="101"/>
+                            -->
+                            <a href="updateSchedule.jsp?id=${allsc.id}&bus=${allsc.busId}&route=${allsc.routeId}&driver=${allsc.driverId}&departure=${allsc.departure}&arrival=${allsc.arrival}&date=${allsc.travelDate}&fare=${allsc.fare}" class="btn btn-sm btn-info">
+   							Edit
+							</a>
+                        <!-- </form> -->
+                        <form action="deleteScheduleServlet" method="post" style="display:inline;" onsubmit="return confirmDelete();">
+                            <input type="hidden" name="scheduleId" value="${allsc.id}"/>
                             <button name="action" value="delete" class="btn btn-sm btn-danger">Delete</button>
                         </form>
                     </td>
@@ -108,6 +111,11 @@
         </div>
     </div>
 </div>
+<script>
+    function confirmDelete() {
+        return confirm("Are you sure you want to delete this schedule?");
+    }
+</script>
 
 </body>
 </html>

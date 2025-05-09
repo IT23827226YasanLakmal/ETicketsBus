@@ -134,4 +134,67 @@ try {
 
 return allsc;
 	}
+	
+	//Update data
+	public static boolean updatedata(int id,int busId,int routeId,int driverId,String departure,String arrival,String travelDate,double fare) {
+		
+		try {
+			//DB Connection
+			con = DBconnection.getConnection();
+			stmt = con.createStatement();
+			
+			//SQL query
+			String sql = "update schedule set bus_id='"+busId+"',route_id='"+routeId+"',driver_id='"+driverId+"',departure_time='"+departure+"',arrival_time='"+arrival+"',travel_date='"+travelDate+"',fare='"+fare+"'"
+						+"where id='"+id+"'";
+			
+			int rs = stmt.executeUpdate(sql);
+			
+			if(rs > 0) {
+				isSuccess = true;
+			}
+			else {
+				isSuccess = false;
+			}
+			
+		}catch(Exception e) {
+			
+			e.printStackTrace();
+		}
+		
+		return isSuccess;
+	}
+	
+	//Delete data
+	public static boolean deletedata(String id) {
+		
+		int conID = Integer.parseInt(id);
+		
+		try {
+			//DB Connection
+			con = DBconnection.getConnection();
+			stmt = con.createStatement();
+			
+			//SQL query
+			String sql = "delete from schedule where id='"+conID+"'";
+			
+			int rs = stmt.executeUpdate(sql);
+			
+			if(rs > 0) {
+				isSuccess = true;
+			}
+			else {
+				isSuccess = false;
+			}
+			
+		}catch(Exception e) {
+			
+			e.printStackTrace();
+		}
+			
+		
+		
+		
+		return isSuccess;
+		
+	}
 }
