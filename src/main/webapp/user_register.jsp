@@ -18,7 +18,7 @@
                     <h4>Register</h4>
                 </div>
                 <div class="card-body">
-                    <form action="register" method="post">
+                    <form action="user/register" method="post">
                         <div class="form-group">
                             <label for="username">Username</label>
                             <input type="text" name="username" class="form-control" id="username" required>
@@ -57,7 +57,7 @@
                     </c:if>
                 </div>
                 <div class="card-footer text-center">
-                    <small>Already have an account? <a href="login.jsp">Login here</a></small>
+                    <small>Already have an account? <a href="user_login.jsp">Login here</a></small>
                 </div>
             </div>
         </div>

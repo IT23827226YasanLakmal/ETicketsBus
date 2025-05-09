@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.ResultSet;
+import java.util.Optional;
 
 public class StaffDAO {
 	private Connection connection;
@@ -25,7 +26,7 @@ public class StaffDAO {
 		}
 	}
 	
-	public Staff getStaffByEmail(String email) throws SQLException{
+	public Optional<Staff> getStaffByEmail(String email) throws SQLException{
 		String sql = "SELECT * FROM staff WHERE email = ?";
 		try(PreparedStatement stmt = connection.prepareStatement(sql)){
 			stmt.setString(1, email);
@@ -35,18 +36,21 @@ public class StaffDAO {
 				return mapResultSetToStaff(rs);
 			}
 		}
-		return null;
+		return Optional.empty();
 	}
 	
-	public Staff mapResultSetToStaff(ResultSet rs) throws SQLException {
-		return new Staff(
+	public Optional<Staff> mapResultSetToStaff(ResultSet rs) throws SQLException {
+		return Optional.of(
+				new Staff(
 				rs.getInt("id"),
 				rs.getString("name"),
 				rs.getString("email"),
 				rs.getString("password_hash"),
 				rs.getString("phone"),
 				rs.getString("role"),
-				rs.getTimestamp("created_at"));
+				rs.getTimestamp("created_at")
+				)
+				);
 		
 	}
 

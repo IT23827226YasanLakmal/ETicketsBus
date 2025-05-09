@@ -53,8 +53,8 @@
     <div class="container">
         <h1>Welcome to eBusTicket System</h1>
         <p>Book your bus tickets anytime, anywhere. Fast. Easy. Reliable.</p>
-        <a href="login.jsp" class="btn btn-custom mr-2">Login</a>
-        <a href="register.jsp" class="btn btn-custom">Register</a>
+        <a href="user_login.jsp" class="btn btn-custom mr-2">Login</a>
+        <a href="user_register.jsp" class="btn btn-custom">Register</a>
     </div>
 </div>
 

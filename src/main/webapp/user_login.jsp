@@ -17,9 +17,9 @@
                     <h4>Login</h4>
                 </div>
                 <div class="card-body">
-                    <form action="login" method="post">
+                    <form action="user/login" method="post">
                         <div class="form-group">
-                            <label for="username">Email address</label>
+                            <label for="username">Username</label>
                             <input type="text" name="username" class="form-control" id="username" required>
                         </div>
 
@@ -44,7 +44,7 @@
                     %>
                 </div>
                 <div class="card-footer text-center">
-                    <small>Don't have an account? <a href="register.jsp">Register here</a></small>
+                    <small>Don't have an account? <a href="user_register.jsp">Register here</a></small>
                 </div>
             </div>
         </div>
