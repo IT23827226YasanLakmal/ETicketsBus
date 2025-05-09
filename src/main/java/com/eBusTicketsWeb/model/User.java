@@ -5,6 +5,7 @@ public class User {
     private String username;
     private String email;
     private String passwordHash;
+    private String phone;
 
 
     public User() {
@@ -39,4 +40,13 @@ public class User {
     public void setPasswordHash(String password) {
         this.passwordHash = password;
     }
+
+	public String getPhone() {
+		return phone;
+	}
+
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
+    
 }

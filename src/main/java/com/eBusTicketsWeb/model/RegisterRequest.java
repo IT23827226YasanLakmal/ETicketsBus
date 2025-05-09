@@ -1,11 +1,11 @@
 package com.eBusTicketsWeb.model;
 
-
 public class RegisterRequest {
 	private String username;
     private String email;
     private String password;
     private String confirmPassword;
+    private String phone;
 
     public RegisterRequest() {}
 
@@ -40,6 +40,12 @@ public class RegisterRequest {
 	public void setConfirmPassword(String confirmPassword) {
 		this.confirmPassword = confirmPassword;
 	}
+	
+	public String getPhone() {
+		return phone;
+	}
 
-
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
 }

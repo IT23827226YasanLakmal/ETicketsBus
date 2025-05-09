@@ -1,5 +1,4 @@
 package com.eBusTicketsWeb.service;
-
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,6 +15,7 @@ public class UserService {
     public UserService(UserDAO userDAO) {
         this.userDAO = userDAO;
     }
+    
     public boolean authenticate(String username, String password) throws SQLException {
         Optional<User> userOpt = userDAO.findByUsername(username);
 
@@ -30,8 +30,8 @@ public class UserService {
             return false;
         }
     }
-
-    public boolean register(String username, String email, String password) throws Exception {
+    
+    public boolean register(String username, String email, String password, String phone) throws Exception {
         if (userDAO.findByUsername(username).isPresent()) {
 			return false;
 		}
@@ -41,6 +41,7 @@ public class UserService {
         user.setUsername(username);
         user.setEmail(email);
         user.setPasswordHash(PasswordUtil.hashPassword(password));
+        user.setPhone(phone);
         return userDAO.save(user);
     }
 
