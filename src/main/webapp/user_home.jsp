@@ -74,7 +74,8 @@
                    <form action="viewAllBus" method="post">
                     <input name="scheduleId" type="hidden" id="scheduleId" value="${schedule.id}">
                     <input name="travelDate" type="hidden" id="travelDate" value="${schedule.travelDate}">
-                 
+                    <input name="departureTime" type="hidden" id="departureTime" value="${schedule.departureTime}">
+                    <input name="arrivalTime" type="hidden" id="arrivalTime" value="${schedule.arrivalTime}">
                     <button type="submit" class="btn btn-outline-primary btn-sm"> <i class="bi bi-ticket-perforated me-1"></i>Go To Booking</button>
                    </form>
 

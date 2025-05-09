@@ -9,15 +9,19 @@ import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.eBusTicketsWeb.dao.BusDAO;
+import com.eBusTicketsWeb.dao.SeatDAO;
 import com.eBusTicketsWeb.dao.UserDAO;
 import com.eBusTicketsWeb.model.Bus;
 import com.eBusTicketsWeb.model.RegisterRequest;
 import com.eBusTicketsWeb.model.Schedule;
 import com.eBusTicketsWeb.model.ScheduleResult;
+import com.eBusTicketsWeb.model.Seat;
 import com.eBusTicketsWeb.service.ScheduleService;
+import com.eBusTicketsWeb.service.SeatService;
 import com.eBusTicketsWeb.service.UserService;
 import com.eBusTicketsWeb.util.DBConnection;
 import com.eBusTicketsWeb.service.BusService;
@@ -27,6 +31,8 @@ import com.eBusTicketsWeb.service.BusService;
 	    "/user/login",
 	    "/user/searchTicket",
 	    "/user/viewAllBus",
+	    "/user/viewAllBus/seat",
+	    "/user/viewAllBus/seat/book",
 	    "/user/home"
 	    
 	})
@@ -62,8 +68,11 @@ import com.eBusTicketsWeb.service.BusService;
 	                break;
 	            case "/user/viewAllBus":
 	                handleViewAllBus(request, response);
-	                break;    
-	            case "/user/bookTicket":
+	                break;   
+	            case "/user/viewAllBus/seat":
+	                handleViewSeat(request, response);
+	                break; 
+	            case "/user/viewAllBus/seat/book":
 	            	handleBookTicket(request, response);
 	                break;
 	            case "/user/bookingHistory":
@@ -178,10 +187,14 @@ import com.eBusTicketsWeb.service.BusService;
 	        // Update logic
 	    	int id = Integer.parseInt(request.getParameter("scheduleId"));
 	    	String travelDate = request.getParameter("travelDate");
+	    	String departureTime = request.getParameter("departureTime");
+	    	String arrivalTime = request.getParameter("arrivalTime");
 	    	
 	    	HttpSession session = request.getSession();
-			session.setAttribute("travelDate", travelDate);
 			session.setAttribute("scheduleId", id);
+			session.setAttribute("travelDate", travelDate);
+			session.setAttribute("departureTime", departureTime);
+			session.setAttribute("arrivalTime", arrivalTime);
 			
 	    	try {
 	            BusService busService = new BusService(new BusDAO(DBConnection.getConnection()));
@@ -199,16 +212,77 @@ import com.eBusTicketsWeb.service.BusService;
 	    }
 	    
 	    
-	    private void handleBookTicket(HttpServletRequest request, HttpServletResponse response) throws IOException {
-	        // Update logic
+	    private void handleViewSeat(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+	    	
+	    	HttpSession session = request.getSession();
+	        int userId = 1;
+	        int scheduleId = (int) session.getAttribute("scheduleId");
+	    	String travelDate = (String) session.getAttribute("travelDate");
+	    	String arrivalTime = (String) session.getAttribute("arrivalTime");
+	    	String departureTime = (String) session.getAttribute("departureTime");
+	    	
 	    	int busId = Integer.parseInt(request.getParameter("busId"));
+	    	String busType = request.getParameter("busType");
+	    	String busNumber = request.getParameter("busNumber");
 	    
 	    	
-	        response.getWriter().write("Update handler");
+	    	try {
+	            SeatService seatService = new SeatService(new SeatDAO(DBConnection.getConnection()));
+	            List<Seat> seatList = seatService.searchAllSeatsByBusId(busId);
+
+	            
+	            request.setAttribute("seatList", seatList);
+	            request.setAttribute("scheduleId", scheduleId);
+	            request.setAttribute("travelDate", travelDate);
+	            request.setAttribute("arrivalTime", arrivalTime);
+	            request.setAttribute("departureTime", departureTime);
+	            request.setAttribute("busId", busId);
+	            request.setAttribute("busType", busType);
+	            request.setAttribute("busNumber", busNumber);
+	           
+	            
+				request.getRequestDispatcher("/user_seat_result.jsp").forward(request, response);
+	            
+	        } catch (Exception e) {
+	            throw new ServletException("Error searching for tickets", e);
+	        }
+	    	
+	        
+	    }
+	    
+	    private void handleBookTicket(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+		       
+	    	
+	        String selectedSeatsParam = request.getParameter("selectedSeats");
+
+	        if (selectedSeatsParam != null && !selectedSeatsParam.isEmpty()) {
+	           
+	            String[] seatIdsArray = selectedSeatsParam.split(",");
+
+	            SeatService seatService = new SeatService(new SeatDAO(DBConnection.getConnection()));
+	            
+	            List<Integer> seatIds = new ArrayList<>();
+	            for (String idStr : seatIdsArray) {
+	                seatIds.add(Integer.parseInt(idStr.trim()));
+	            }
+
+	      
+	            for (int seatId : seatIds) {
+	            	seatService.reserveSeat(seatId);
+	            }
+	          
+	            request.setAttribute("totalPrice", 400.00);
+	            request.getRequestDispatcher("/user_payment.jsp").forward(request, response);
+	            
+	        } else {
+	          
+	            request.setAttribute("errorMessage", "Please select at least one seat.");
+	            request.getRequestDispatcher("/user_bus_result.jsp").forward(request, response);
+	        }
 	    }
 	    
 	    private void handleBookingHistory(HttpServletRequest request, HttpServletResponse response) throws IOException {
-	        // Delete logic
-	        response.getWriter().write("Delete handler");
+	       
+	   
 	    }
 	}

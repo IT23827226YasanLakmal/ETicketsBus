@@ -43,8 +43,10 @@
                   <p class="mb-2"><i class="bi "></i> Date: <strong>${bus.totalSeats}</strong></p>
                   <p class="mb-1"><i class="bi "></i> Departure: <strong>${bus.busNumber}</strong></p>
                   
-                 <form action="bookTicket" method="post">
+                 <form action="viewAllBus/seat" method="post">
                     <input name="busId" type="hidden" id="busId" value="${bus.id}">
+                    <input name="busType" type="hidden" id="busType" value="${bus.busType}">
+                    <input name="busNumber" type="hidden" id="busNumber" value="${bus.busNumber}">
                     <button type="submit" class="btn btn-outline-primary btn-sm"> <i class="bi bi-ticket-perforated me-1"></i>Book Now</button>
                    </form>
                    

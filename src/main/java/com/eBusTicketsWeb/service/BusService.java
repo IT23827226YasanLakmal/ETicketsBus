@@ -17,7 +17,6 @@ public class BusService {
 }
 
 
-
 public List<Bus> searchAllBusByScheduleId(int scheduleId) throws SQLException {
      return busDAO.getAllBusByScheduleId(scheduleId);
  }
