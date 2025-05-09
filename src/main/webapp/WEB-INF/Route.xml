@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<web-app xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee
+         http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
+         version="3.1">
+
+
+
+     <servlet>
+     	<servlet-name>RouteInsertServlet</servlet-name>
+     	<servlet-class>com.eBusTicketsWeb.controller.RouteInsertServlet</servlet-class>
+     </servlet>
+     <servlet-mapping>
+     	<servlet-name>RouteInsertServlet</servlet-name>
+     	<url-pattern>/RouteReadtServlet</url-pattern>
+     </servlet-mapping>
+
+    <servlet>
+     	<servlet-name>RouteReadServlet</servlet-name>
+     	<servlet-class>com.eBusTicketsWeb.controller.RouteReadServlet</servlet-class>
+     </servlet>
+     <servlet-mapping>
+     	<servlet-name>RouteReadServlet</servlet-name>
+     	<url-pattern>/RouteReadServlet</url-pattern>
+     </servlet-mapping>
+     
+     <servlet>
+     	<servlet-name>RouteUpdateServlet</servlet-name>
+     	<servlet-class>com.eBusTicketsWeb.controller.RouteUpdateServlet</servlet-class>
+     </servlet>
+     <servlet-mapping>
+     	<servlet-name>RouteUpdateServlet</servlet-name>
+     	<url-pattern>/RouteUpdateServlet</url-pattern>
+     </servlet-mapping>
+
+
+ <servlet>
+     	<servlet-name>RouteDeleteServlet</servlet-name>
+     	<servlet-class>com.eBusTicketsWeb.controller.RouteDeleteServlet</servlet-class>
+     </servlet>
+     <servlet-mapping>
+     	<servlet-name>RouteDeleteServlet</servlet-name>
+     	<url-pattern>/RouteDeleteServlet</url-pattern>
+     </servlet-mapping>
+</web-app>
