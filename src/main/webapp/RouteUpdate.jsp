@@ -1,75 +1,263 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page import="com.eBusTicketsWeb.model.Route" %>
+<%@ page import="com.eBusTicketsWeb.model.RouteStop" %>
+<%@ page import="java.util.List" %>
+<%
+    Route route = (Route) request.getAttribute("route");
+    List<RouteStop> stops = (List<RouteStop>) request.getAttribute("stops");
+%>
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Route Update Form</title>
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <meta charset="UTF-8">
+    <title>Update Route</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(135deg, #007ea7, #003249);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        .form-container {
+            background-color: #ccdbdc;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 600px;
+        }
+
+        .form-title {
+            text-align: center;
+            font-weight: bold;
+            color: #003249;
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            color: #003249;
+            font-weight: 500;
+        }
+
+        .form-control {
+            border-radius: 10px;
+            border: 1px solid #9ad1d4;
+        }
+
+        .form-control:focus {
+            border-color: #007ea7;
+            box-shadow: 0 0 5px rgba(0, 126, 167, 0.4);
+        }
+
+        .btn-primary {
+            background-color: #007ea7;
+            border-color: #007ea7;
+            border-radius: 10px;
+        }
+
+        .btn-primary:hover {
+            background-color: #003249;
+            border-color: #003249;
+        }
+
+        .btn-secondary {
+            background-color: #80ced7;
+            border-color: #80ced7;
+            color: #003249;
+            border-radius: 10px;
+        }
+
+        .btn-secondary:hover {
+            background-color: #9ad1d4;
+            border-color: #9ad1d4;
+        }
+
+        .btn-danger {
+            background-color: #d9534f;
+            border-color: #d9534f;
+            border-radius: 10px;
+        }
+
+        .btn-danger:hover {
+            background-color: #c9302c;
+            border-color: #c12e2a;
+        }
+
+        .stop-input-group {
+            background-color: #e8f1f2;
+            padding: 1rem;
+            border-radius: 10px;
+            margin-bottom: 1rem;
+            border: 1px solid #9ad1d4;
+        }
+
+        .stop-label {
+            color: #003249;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        .input-row {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .input-col {
+            flex: 1;
+        }
+    </style>
 </head>
 <body>
-<%
-    int id = Integer.parseInt(request.getParameter("id"));
-    String source = request.getParameter("source");
-    String destination = request.getParameter("destination");
-    float distance_km = Float.parseFloat(request.getParameter("distance_km"));
-    String stops = request.getParameter("stops");
-    String estimated_time = request.getParameter("estimated_time");
 
-    String hh = "00", mm = "00", ss = "00";
-    if (estimated_time != null && estimated_time.contains(":")) {
-        String[] timeParts = estimated_time.split(":");
-        hh = timeParts.length > 0 ? timeParts[0] : "00";
-        mm = timeParts.length > 1 ? timeParts[1] : "00";
-        ss = timeParts.length > 2 ? timeParts[2] : "00";
-    }
-%>
+<div class="form-container">
+    <h3 class="form-title">Update Route Details</h3>
+    <form action="RouteUpdateServlet" method="post" onsubmit="return validateForm()">
+        <input type="hidden" name="route_id" value="<%= route.getId() %>">
 
-    <div class="container mt-5">
-        <div class="card shadow-lg rounded">
-            <div class="card-body">
-                <h3 class="card-title mb-4 text-center text-primary">Update Route Details</h3>
-                <form action="RouteUpdateServlet" method="post">
-                <div class="mb-3">
-                        <label for="id" class="form-label">ID:</label>
-                        <input type="text" class="form-control" id="source" name="id" value="<%=id%>" readonly>
-                    </div>
-                    <div class="mb-3">
-                        <label for="source" class="form-label">Source:</label>
-                        <input type="text" class="form-control" id="source" name="source" value="<%=source%>" required>
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="destination" class="form-label">Destination:</label>
-                        <input type="text" class="form-control" id="destination" name="destination" value="<%=destination%>" required>
-                    </div>
-
-                    <div class="d-flex align-items-center">
-                        <label for="distance_km" class="me-3 mb-0">Distance (km):</label>
-                         <input type="number" step="0.01" class="form-control  w-auto" id="distance_km" name="distance_km" value="<%=distance_km%>" min="1" step="1" required>
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="stops" class="form-label">Stops:</label>
-                        <input type="text" class="form-control" id="stops" name="stops"value="<%=stops%>" required>
-                    </div>
-
-                   <div class="d-flex align-items-center">
-                         <label class="me-3">Estimated Time:</label>
-                             <div class="d-flex gap-2">
-                             <input type="number" class="form-control" name="hh" min="0" max="23" placeholder="HH" value="<%=hh%>" required>
-                             <input type="number" class="form-control" name="mm" min="0" max="59" placeholder="MM" value="<%=mm%>" required>
-                             <input type="number" class="form-control" name="ss" min="0" max="59" placeholder="SS" value="<%=ss%>" required>
-                    </div>
-            </div>
-                    <div class="mt-3  text-center">
-                        <button type="submit" class="btn btn-primary">Submit Changes:</button>
-                    </div>
-                </form>
-            </div>
+        <div class="mb-3">
+            <label for="start" class="form-label">Start Location</label>
+            <input type="text" class="form-control" id="start" name="start" value="<%= route.getStart() %>" required>
         </div>
-    </div> 
 
- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+        <div class="mb-3">
+            <label for="end" class="form-label">End Location</label>
+            <input type="text" class="form-control" id="end" name="end" value="<%= route.getEnd() %>" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="distance_km" class="form-label">Distance (km)</label>
+            <input type="number" step="0.01" min="1" class="form-control" id="distance_km" name="distance_km" value="<%= route.getDistance_km() %>" required>
+        </div>
+
+        <div id="stopInputs" class="mb-3">
+            <label class="form-label">Stops</label>
+            <% for (RouteStop stop : stops) { %>
+                <div class="stop-input-group">
+                    <input type="hidden" name="stop_ids" value="<%= stop.getId() %>">
+                    <div class="input-row">
+                        <div class="input-col">
+                            <label class="stop-label">Stop Name</label>
+                            <input type="text" class="form-control" name="stop_name" value="<%= stop.getStop_name()%>" required placeholder="Stop Name">
+                        </div>
+                        <div class="input-col">
+                            <label class="stop-label">Stop Order</label>
+                            <input type="number" class="form-control" name="stop_order" value="<%= stop.getStop_order() %>" min="1" required placeholder="Order">
+                        </div>
+                    </div>
+                    <button type="button" class="btn btn-danger w-100" onclick="removeStopInput(this)">Remove Stop</button>
+                </div>
+            <% } %>
+        </div>
+
+        <div class="d-flex justify-content-between mb-3">
+            <button type="button" class="btn btn-secondary" onclick="addStopInput()">Add More Stops</button>
+        </div>
+
+        <div class="text-center">
+            <button type="submit" class="btn btn-primary w-100">Update Route Details</button>
+        </div>
+    </form>
+</div>
+
+<script>
+    function addStopInput() {
+        const div = document.getElementById("stopInputs");
+        const stopGroup = document.createElement("div");
+        stopGroup.classList.add("stop-input-group");
+        
+        const inputRow = document.createElement("div");
+        inputRow.classList.add("input-row");
+        
+        // Name Column
+        const nameCol = document.createElement("div");
+        nameCol.classList.add("input-col");
+        
+        const nameLabel = document.createElement("label");
+        nameLabel.classList.add("stop-label");
+        nameLabel.innerText = "Stop Name";
+        
+        const nameInput = document.createElement("input");
+        nameInput.type = "text";
+        nameInput.classList.add("form-control");
+        nameInput.name = "stop_name";
+        nameInput.placeholder = "New Stop";
+        nameInput.required = true;
+        
+        nameCol.appendChild(nameLabel);
+        nameCol.appendChild(nameInput);
+        
+        // Order Column
+        const orderCol = document.createElement("div");
+        orderCol.classList.add("input-col");
+        
+        const orderLabel = document.createElement("label");
+        orderLabel.classList.add("stop-label");
+        orderLabel.innerText = "Stop Order";
+        
+        const orderInput = document.createElement("input");
+        orderInput.type = "number";
+        orderInput.classList.add("form-control");
+        orderInput.name = "stop_order";
+        orderInput.placeholder = "Order";
+        orderInput.min = "1";
+        orderInput.required = true;
+        
+        orderCol.appendChild(orderLabel);
+        orderCol.appendChild(orderInput);
+        
+        // Add columns to row
+        inputRow.appendChild(nameCol);
+        inputRow.appendChild(orderCol);
+        
+        // Build the group
+        stopGroup.appendChild(inputRow);
+        
+        div.appendChild(stopGroup);
+    }
+
+    function removeStopInput(button) {
+        const stopGroup = button.closest('.stop-input-group');
+        stopGroup.remove();
+    }
+    
+    function validateForm() {
+        const stopOrders = [];
+        const orderInputs = document.querySelectorAll('input[name="stop_order"]');
+        
+        // Check for duplicates and sequential order
+        for (let i = 0; i < orderInputs.length; i++) {
+            const order = parseInt(orderInputs[i].value);
+            
+            if (isNaN(order) || order < 1) {
+                alert("Stop order must be a number greater than 0");
+                return false;
+            }
+            
+            if (stopOrders.includes(order)) {
+                alert("Duplicate stop order found: " + order);
+                return false;
+            }
+            stopOrders.push(order);
+        }
+        
+        // Check if orders are sequential starting from 1
+        const sortedOrders = [...stopOrders].sort((a, b) => a - b);
+        for (let i = 0; i < sortedOrders.length; i++) {
+            if (sortedOrders[i] !== i + 1) {
+                alert("Stop orders must be sequential starting from 1");
+                return false;
+            }
+        }
+        
+        return true;
+    }
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
