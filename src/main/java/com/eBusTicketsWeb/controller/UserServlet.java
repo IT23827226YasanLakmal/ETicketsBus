@@ -17,7 +17,6 @@ import com.eBusTicketsWeb.dao.SeatDAO;
 import com.eBusTicketsWeb.dao.UserDAO;
 import com.eBusTicketsWeb.model.Bus;
 import com.eBusTicketsWeb.model.RegisterRequest;
-import com.eBusTicketsWeb.model.Schedule;
 import com.eBusTicketsWeb.model.ScheduleResult;
 import com.eBusTicketsWeb.model.Seat;
 import com.eBusTicketsWeb.service.ScheduleService;
@@ -29,6 +28,7 @@ import com.eBusTicketsWeb.service.BusService;
 @WebServlet(urlPatterns = {
 	    "/user/register",
 	    "/user/login",
+	    "/user/logout",
 	    "/user/searchTicket",
 	    "/user/viewAllBus",
 	    "/user/viewAllBus/seat",
@@ -47,7 +47,9 @@ import com.eBusTicketsWeb.service.BusService;
 	            case "/user/home":
 	            	fetchAllSchedules(request, response);
 	            	break;
-	           
+	            case "/user/logout":
+	                handleLogout(request, response);
+	                break;
 	        }
 	    }
 	 
@@ -68,7 +70,7 @@ import com.eBusTicketsWeb.service.BusService;
 	                break;
 	            case "/user/viewAllBus":
 	                handleViewAllBus(request, response);
-	                break;   
+	                break;
 	            case "/user/viewAllBus/seat":
 	                handleViewSeat(request, response);
 	                break; 
@@ -83,7 +85,13 @@ import com.eBusTicketsWeb.service.BusService;
 	        }
 	    }
 
-		private void fetchAllSchedules(HttpServletRequest request, HttpServletResponse response) throws ServletException{
+		private void fetchAllSchedules(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
+			 HttpSession session = request.getSession(false);
+
+			 if (session == null || session.getAttribute("username") == null) {
+			     response.sendRedirect(request.getContextPath() + "/user_login.jsp");
+			     return;
+			}
 	 		ScheduleService scheduleService = new ScheduleService(DBConnection.getConnection());
 	 		List<ScheduleResult> scheduleList;
 			try {
@@ -164,6 +172,15 @@ import com.eBusTicketsWeb.service.BusService;
 	    		throw new IOException(e);
 	    	}
 	    }
+	    
+	    private void handleLogout(HttpServletRequest request, HttpServletResponse response) throws IOException {
+	        HttpSession session = request.getSession(false); // don't create if not exists
+	        if (session != null) {
+	            session.invalidate();
+	        }
+	        response.sendRedirect(request.getContextPath() + "/user_login.jsp");
+	    }
+
 
 	    private void handleSearch(HttpServletRequest request, HttpServletResponse response) throws ServletException {
 	    	String from = request.getParameter("from");
