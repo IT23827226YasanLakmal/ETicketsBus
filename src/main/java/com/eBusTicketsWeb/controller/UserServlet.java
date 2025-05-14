@@ -322,7 +322,7 @@ import com.eBusTicketsWeb.service.PaymentService;
 
 	            if (userId == null || scheduleId == null || busId == null) {
 	                request.setAttribute("errorMessage", "Invalid booking details. Please try again.");
-	                request.getRequestDispatcher("/user_home.jsp").forward(request, response);
+	                request.getRequestDispatcher("/home").forward(request, response);
 	                return;
             }
 

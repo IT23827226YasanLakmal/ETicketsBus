@@ -17,7 +17,7 @@ public class BusDAO {
      String sql = """
      		SELECT *
      		FROM bus b
-     		JOIN schedules s 
+     		JOIN schedule s 
      		ON b.id = s.bus_id
      		WHERE s.id = ? ;
      		
