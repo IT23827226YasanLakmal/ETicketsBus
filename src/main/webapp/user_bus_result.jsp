@@ -40,8 +40,8 @@
                   <h5 class="card-title text-primary">
                     <i class="bi bi-geo-alt-fill"></i> ${bus.busType} 
                   </h5>
-                  <p class="mb-2"><i class="bi "></i> Date: <strong>${bus.totalSeats}</strong></p>
-                  <p class="mb-1"><i class="bi "></i> Departure: <strong>${bus.busNumber}</strong></p>
+                  <p class="mb-2"><i class="bi "></i> Total Seats: <strong>${bus.totalSeats}</strong></p>
+                  <p class="mb-1"><i class="bi "></i> Bus Number: <strong>${bus.busNumber}</strong></p>
                   
                  <form action="viewAllBus/seat" method="post">
                     <input name="busId" type="hidden" id="busId" value="${bus.id}">

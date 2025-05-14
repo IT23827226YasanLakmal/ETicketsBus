@@ -9,25 +9,19 @@ public class Bus {
  private int driverId;
  private int routeId;
 
- // Constructor
+ 
+
  public Bus(int id, String busNumber, String busType, int totalSeats, int driverId, int routeId) {
-     this.id = id;
-     this.busNumber = busNumber;
-     this.busType = busType;
-     this.totalSeats = totalSeats;
-     this.driverId = driverId;
-     this.routeId = routeId;
- }
-
- public Bus(String busNumber, String busType, int totalSeats, int driverId, int routeId) {
-     this.busNumber = busNumber;
-     this.busType = busType;
-     this.totalSeats = totalSeats;
-     this.driverId = driverId;
-     this.routeId = routeId;
- }
-
- // Getters and Setters
+	super();
+	this.id = id;
+	this.busNumber = busNumber;
+	this.busType = busType;
+	this.totalSeats = totalSeats;
+	this.driverId = driverId;
+	this.routeId = routeId;
+}
+ 
+// Getters and Setters
  public int getId() { return id; }
  public void setId(int id) { this.id = id; }
 

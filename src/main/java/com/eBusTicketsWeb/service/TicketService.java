@@ -10,8 +10,8 @@ import java.util.List;
 public class TicketService {
     private TicketDAO ticketDAO;
 
-    public TicketService(Connection connection) {
-        this.ticketDAO = new TicketDAO(connection);
+    public TicketService(TicketDAO ticketDAO) {
+        this.ticketDAO = ticketDAO;
     }
 
     public void bookTicket(Ticket ticket) throws SQLException {
