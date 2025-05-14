@@ -18,8 +18,8 @@ public class It23843370_scheduleControl {
 	private static ResultSet rs = null;
 	
 	//Insert data function
-	public static boolean insertData(int id, int busId, int routeId, int driverId, LocalTime departure, LocalTime arrival,
-			LocalDate travelDate, double fare) {
+	public static boolean insertData( int busId, int routeId, int driverId, LocalTime departure, LocalTime arrival,
+			LocalDate travelDate) {
 		
 		boolean isSuccess = false;
 		
@@ -30,7 +30,9 @@ public class It23843370_scheduleControl {
 			stmt = con.createStatement();
 			
 			//SQL Query
-			String sql = "insert into schedule values (0,'"+busId+"','"+routeId+"','"+driverId+"','"+departure+"','"+arrival+"','"+travelDate+"',"+fare+")";
+			String sql = "insert into schedule (bus_id, route_id, driver_id, departure_time, arrival_time, travel_date) " +
+		             "values ('"+busId+"', '"+routeId+"', '"+driverId+"', '"+departure+"', '"+arrival+"', '"+travelDate+"')";
+
 			
 			int rs = stmt.executeUpdate(sql);
 			
@@ -74,13 +76,13 @@ public class It23843370_scheduleControl {
 				String departure = rs.getString(5);
 				String arrival = rs.getString(6);
 				String travelDate = rs.getString(7);
-				double fare = rs.getDouble(8);
+				//double fare = rs.getDouble(8);
 				
 				LocalTime depTime = LocalTime.parse(departure); // works if format is "HH:mm:ss"
 				LocalTime arrTime = LocalTime.parse(arrival);
 				LocalDate traveLd = LocalDate.parse(travelDate);
 				
-				It23843370_scheduleModel sm = new It23843370_scheduleModel(id,busId,routeId,driverId,depTime,arrTime,traveLd,fare);
+				It23843370_scheduleModel sm = new It23843370_scheduleModel(id,busId,routeId,driverId,depTime,arrTime,traveLd);
 				
 				sc.add(sm);
 			}
@@ -92,6 +94,93 @@ public class It23843370_scheduleControl {
 		
 		return sc;
 	}
+	
+	
+	//Get bus ids from database
+	public static List<It23843370_busModel> getAllBusIds() {
+        List<It23843370_busModel> busIds = new ArrayList<>();
+        try {
+        	//DB connection call
+			con = It23843370_DBconnection.getConnection();
+			stmt = con.createStatement();
+			
+			//Query
+			String sql = "select id from bus";
+			rs = stmt.executeQuery(sql);
+
+        while (rs.next()) {
+        	It23843370_busModel buses = new It23843370_busModel();
+        	
+        	buses.setBusId(rs.getInt("id"));
+            busIds.add(buses);
+        }
+        
+        }catch(Exception e) {
+        	
+    		e.printStackTrace();
+    	}
+
+        return busIds;
+    }
+	
+	
+	//Get route ids from database
+		public static List<It23843370_routeModel> getAllRouteIds() {
+	        List<It23843370_routeModel> routeIds = new ArrayList<>();
+	        try {
+	        	//DB connection call
+				con = It23843370_DBconnection.getConnection();
+				stmt = con.createStatement();
+				
+				//Query
+				String sql = "select id from route";
+				rs = stmt.executeQuery(sql);
+
+	        while (rs.next()) {
+	        	It23843370_routeModel routes = new It23843370_routeModel();
+	        	
+	        	routes.setRouteId(rs.getInt("id"));
+	        	routeIds.add(routes);
+	        }
+	        
+	        }catch(Exception e) {
+	        	
+	    		e.printStackTrace();
+	    	}
+
+	        return routeIds;
+	    }
+		
+		
+		//Get driver ids from database
+				public static List<It23843370_driverModel> getAllDriverIds() {
+			        List<It23843370_driverModel> driverIds = new ArrayList<>();
+			        try {
+			        	//DB connection call
+						con = It23843370_DBconnection.getConnection();
+						stmt = con.createStatement();
+						
+						//Query
+						String sql = "select id from driver";
+						rs = stmt.executeQuery(sql);
+
+			        while (rs.next()) {
+			        	It23843370_driverModel drivers = new It23843370_driverModel();
+			        	
+			        	drivers.setDriverId(rs.getInt("id"));
+			        	driverIds.add(drivers);
+			        }
+			        
+			        }catch(Exception e) {
+			        	
+			    		e.printStackTrace();
+			    	}
+
+			        return driverIds;
+			    }
+			
+	
+	
 	
 	//Get all data
 	public static List<It23843370_scheduleModel> getallSchedules(){
@@ -116,13 +205,13 @@ try {
 				String departure = rs.getString(5);
 				String arrival = rs.getString(6);
 				String travelDate = rs.getString(7);
-				double fare = rs.getDouble(8);
+				//double fare = rs.getDouble(8);
 				
 				LocalTime depTime = LocalTime.parse(departure); // works if format is "HH:mm:ss"
 				LocalTime arrTime = LocalTime.parse(arrival);
 				LocalDate traveLd = LocalDate.parse(travelDate);
 				
-				It23843370_scheduleModel sm = new It23843370_scheduleModel(id,busId,routeId,driverId,depTime,arrTime,traveLd,fare);
+				It23843370_scheduleModel sm = new It23843370_scheduleModel(id,busId,routeId,driverId,depTime,arrTime,traveLd);
 				
 				allsc.add(sm);
 			}
@@ -136,15 +225,15 @@ return allsc;
 	}
 	
 	//Update data
-	public static boolean updatedata(int id,int busId,int routeId,int driverId,String departure,String arrival,String travelDate,double fare) {
+	public static boolean updatedata(int id,int busId,int routeId,int driverId,String departure,String arrival,String travelDate) {
 		
 		try {
 			//DB Connection
-			con = DBconnection.getConnection();
+			con = It23843370_DBconnection.getConnection();
 			stmt = con.createStatement();
 			
 			//SQL query
-			String sql = "update schedule set bus_id='"+busId+"',route_id='"+routeId+"',driver_id='"+driverId+"',departure_time='"+departure+"',arrival_time='"+arrival+"',travel_date='"+travelDate+"',fare='"+fare+"'"
+			String sql = "update schedule set bus_id='"+busId+"',route_id='"+routeId+"',driver_id='"+driverId+"',departure_time='"+departure+"',arrival_time='"+arrival+"',travel_date='"+travelDate+"'"
 						+"where id='"+id+"'";
 			
 			int rs = stmt.executeUpdate(sql);
@@ -171,7 +260,7 @@ return allsc;
 		
 		try {
 			//DB Connection
-			con = DBconnection.getConnection();
+			con = It23843370_DBconnection.getConnection();
 			stmt = con.createStatement();
 			
 			//SQL query

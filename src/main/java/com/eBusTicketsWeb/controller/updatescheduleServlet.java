@@ -32,7 +32,7 @@ public class updatescheduleServlet extends HttpServlet {
         String depStr = request.getParameter("departureTime");
         String arrStr = request.getParameter("arrivalTime");
         String dateStr = request.getParameter("travelDate");
-        double fare = Double.parseDouble(request.getParameter("fare"));
+        //double fare = Double.parseDouble(request.getParameter("fare"));
         
         // No custom formatters needed
         LocalTime departure = LocalTime.parse(depStr);          // expects HH:mm
@@ -41,12 +41,12 @@ public class updatescheduleServlet extends HttpServlet {
         
         boolean isTrue;
         
-        isTrue = scheduleControl.updatedata(id, busId, routeId, driverId, depStr, arrStr, dateStr, fare);
+        isTrue = It23843370_scheduleControl.updatedata(id, busId, routeId, driverId, depStr, arrStr, dateStr);
         
         if(isTrue == true) {
         	
         	String ID = String.valueOf(id);
-        	List<scheduleModel> schedules = scheduleControl.getById(ID);
+        	List<It23843370_scheduleModel> schedules = It23843370_scheduleControl.getById(ID);
         	request.setAttribute("schedules", schedules);
         	String alertmsg = "Data updated successfully";
         	response.getWriter().println("<script> alert('"+alertmsg+"');window.location.href='getallSchedule'</script>");

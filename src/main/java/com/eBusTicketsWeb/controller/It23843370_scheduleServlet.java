@@ -19,14 +19,14 @@ public class It23843370_scheduleServlet extends HttpServlet {
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		int id = Integer.parseInt(request.getParameter("scheduleId"));
+		//int id = Integer.parseInt(request.getParameter("scheduleId"));
         int busId = Integer.parseInt(request.getParameter("busId"));
         int routeId = Integer.parseInt(request.getParameter("routeId"));
         int driverId = Integer.parseInt(request.getParameter("driverId"));
         String depStr = request.getParameter("departureTime");
         String arrStr = request.getParameter("arrivalTime");
         String dateStr = request.getParameter("travelDate");
-        double fare = Double.parseDouble(request.getParameter("fare"));
+        //double fare = Double.parseDouble(request.getParameter("fare"));
         
   
 
@@ -38,7 +38,7 @@ public class It23843370_scheduleServlet extends HttpServlet {
         
         boolean isTrue;
         
-        isTrue = It23843370_scheduleControl.insertData(id, busId, routeId, driverId, departure, arrival, travelDate, fare);
+        isTrue = It23843370_scheduleControl.insertData( busId, routeId, driverId, departure, arrival, travelDate);
         
         if(isTrue == true) {
         	

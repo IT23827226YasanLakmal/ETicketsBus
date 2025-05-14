@@ -21,14 +21,14 @@ public class deleteScheduleServlet extends HttpServlet {
 		
 		String id = request.getParameter("scheduleId");
 		boolean isTrue;
-		isTrue = scheduleControl.deletedata(id);
+		isTrue = It23843370_scheduleControl.deletedata(id);
 		if(isTrue == true) {
 			
 			String alertMessage = "Record deleted successfully";
 			response.getWriter().println("<script>alert('"+alertMessage+"');"+"window.location.href='getallSchedule';</script>");
 		}
 		else {
-			List <scheduleModel> allSchedules = scheduleControl.getById(id);
+			List <It23843370_scheduleModel> allSchedules = It23843370_scheduleControl.getById(id);
 			request.setAttribute("allSchedules",allSchedules);
 			
 			RequestDispatcher dispatcher = request.getRequestDispatcher("bus_operator_dashboard.jsp");

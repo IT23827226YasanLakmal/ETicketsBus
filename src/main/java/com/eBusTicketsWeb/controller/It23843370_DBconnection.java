@@ -13,13 +13,23 @@ public class It23843370_DBconnection {
 	private static String url = "jdbc:mysql://127.0.0.1:3306/ebusticketsystem";
 	private static String username = "root";
 	private static String password = "";
-	private static Connection con;
+	//private static Connection con;
+	
+	
+	// Singleton instance of the connection
+	private static Connection con = null;//single shared instance
+	
+	// Private constructor to prevent instantiation
+    private It23843370_DBconnection() {}//only static Connection getConnection method can access
 	
 	public static Connection getConnection(){
 		
 		try {
-			Class.forName("com.mysql.jdbc.Driver");
-			con = DriverManager.getConnection(url,username,password);
+			if(con == null || con.isClosed()) {
+				Class.forName("com.mysql.cj.jdbc.Driver");// updated to newer driver class
+				con = DriverManager.getConnection(url,username,password);
+			}
+			
 			
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
