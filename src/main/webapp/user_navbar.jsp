@@ -25,7 +25,7 @@
         </li>
       </ul>
       <span class="navbar-text">
-        <a class="btn btn-outline-light" href="logout.jsp">Logout</a>
+        <a class="btn btn-outline-light" href="logout">Logout</a>
       </span>
     </div>
   </div>
