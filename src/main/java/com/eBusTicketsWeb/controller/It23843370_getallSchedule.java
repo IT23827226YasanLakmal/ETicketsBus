@@ -20,6 +20,16 @@ public class It23843370_getallSchedule extends HttpServlet {
 		List <It23843370_scheduleModel> allSchedules = It23843370_scheduleControl.getallSchedules();
 		request.setAttribute("allSchedules",allSchedules);
 		
+		List<It23843370_busModel> allbusIds = It23843370_scheduleControl.getAllBusIds();
+		request.setAttribute("allbusIds",allbusIds);
+		
+		List<It23843370_routeModel> allrouteIds = It23843370_scheduleControl.getAllRouteIds();
+		request.setAttribute("allrouteIds",allrouteIds);
+		
+		List<It23843370_driverModel> alldriverIds = It23843370_scheduleControl.getAllDriverIds();
+		request.setAttribute("alldriverIds",alldriverIds);
+
+		
 		RequestDispatcher dispatcher = request.getRequestDispatcher("bus_operator_dashboard.jsp");
 		dispatcher.forward(request, response);
 	}

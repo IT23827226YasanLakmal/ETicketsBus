@@ -12,10 +12,10 @@ public class It23843370_scheduleModel {
 	private LocalTime departure;
 	private LocalTime arrival;
 	private LocalDate travelDate;
-	private double fare;
+	//private double fare;
 	
 	public It23843370_scheduleModel(int id, int busId, int routeId, int driverId, LocalTime departure, LocalTime arrival,
-			LocalDate travelDate, double fare) {
+			LocalDate travelDate) {
 		
 		this.id = id;
 		this.busId = busId;
@@ -24,7 +24,7 @@ public class It23843370_scheduleModel {
 		this.departure = departure;
 		this.arrival = arrival;
 		this.travelDate = travelDate;
-		this.fare = fare;
+		//this.fare = fare;
 	}
 
 	public int getId() {
@@ -83,12 +83,12 @@ public class It23843370_scheduleModel {
 		this.travelDate = travelDate;
 	}
 
-	public double getFare() {
+	/*public double getFare() {
 		return fare;
 	}
 
 	public void setFare(double fare) {
-		this.fare = fare;
+		this.fare = fare;*/
 	}
 	
 	
@@ -96,4 +96,4 @@ public class It23843370_scheduleModel {
 	
 	
 	
-}
+
