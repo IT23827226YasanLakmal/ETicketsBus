@@ -167,7 +167,17 @@
     function confirmDelete() {
         return confirm("Are you sure you want to delete this schedule?");
     }
-</script>
 
+
+
+    window.onload = function () {
+        let today = new Date().toISOString().split('T')[0];//take only date
+        document.querySelector("input[name='travelDate']").setAttribute('min', today);
+    };
+
+
+
+
+    </script>
 </body>
 </html>

@@ -25,6 +25,7 @@ public class It23843370_DBconnection {
 	public static Connection getConnection(){
 		
 		try {
+			//only one instance of the connection is shared across application
 			if(con == null || con.isClosed()) {
 				Class.forName("com.mysql.cj.jdbc.Driver");// updated to newer driver class
 				con = DriverManager.getConnection(url,username,password);

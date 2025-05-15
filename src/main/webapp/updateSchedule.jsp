@@ -87,5 +87,15 @@
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+window.onload = function () {
+    let today = new Date().toISOString().split('T')[0];
+    document.querySelector("input[name='travelDate']").setAttribute('min', today);
+};
+</script>
+
+
+
 </body>
 </html>
