@@ -15,7 +15,7 @@ public class ScheduleDAO {
 
     public void addSchedule(Schedule schedule) throws SQLException {
         String sql = """
-            INSERT INTO schedules (bus_id, route_id, driver_id, departure_time, arrival_time, travel_date, fare)
+            INSERT INTO schedule (bus_id, route_id, driver_id, departure_time, arrival_time, travel_date, fare)
             VALUES (?, ?, ?, ?, ?, ?, ?)
         """;
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
@@ -40,7 +40,7 @@ public class ScheduleDAO {
         	s.travel_date,
         	r.start,
         	r.end
-        	FROM schedules s
+        	FROM schedule s
         	JOIN route r ON s.route_id = r.id
         	ORDER BY s.travel_date ASC;
         """;
@@ -75,10 +75,10 @@ public class ScheduleDAO {
         	s.travel_date,
         	r.start,
         	r.end
-        	FROM schedules s
+        	FROM schedule s
         	JOIN route r ON s.route_id = r.id
-        	JOIN route_stops rs_start ON r.id = rs_start.route_id OR rs_start.stop_name = ?
-        	JOIN route_stops rs_end ON r.id = rs_end.route_id OR rs_end.stop_name = ?
+        	JOIN route_stop rs_start ON r.id = rs_start.route_id OR rs_start.stop_name = ?
+        	JOIN route_stop rs_end ON r.id = rs_end.route_id OR rs_end.stop_name = ?
         	WHERE s.travel_date = ?
         	AND rs_start.stop_order < rs_end.stop_order 
         	ORDER BY s.travel_date ASC;
